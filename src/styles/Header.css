@@ -1,0 +1,110 @@
+/* src/components/Header.css */
+
+.header {
+    width: 100%;
+    background-color: #1c2230;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+}
+
+.header-content {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    font-size: 24px;
+    color: #61dafb;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+}
+
+.header-link {
+    margin: 0 15px;
+    font-size: 16px;
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.header-link:hover {
+    color: #61dafb;
+}
+
+.header-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #61dafb;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.header-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.creator-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #202b3c;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    text-align: center;
+    margin-left: 15px;
+    transition: background-color 0.3s;
+}
+
+.creator-button:hover {
+    background-color: #2a2d3a;
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+    }
+
+    .header-nav {
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .header-link {
+        margin: 5px 10px;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .creator-button {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
