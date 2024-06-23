@@ -1,0 +1,110 @@
+/* src/styles/MyPageEditor.css */
+
+.page-editor {
+    padding: 20px;
+    background-color: #faf9f6; /* Ivory background */
+    font-family: 'Roboto', sans-serif;
+    color: #2c3e50; /* Darker text color */
+}
+
+.form-group-t {
+    margin-bottom: 15px;
+}
+
+.form-group-t label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group-t input,
+.form-group-t textarea {
+    width: 90%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: #f2eee8; /* Lighter ivory */
+    color: #2c3e50; /* Darker text color */
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #d4cfc1; /* Muted ivory */
+    color: #2c3e50; /* Darker text color */
+    border: none;
+    border-radius: 10px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+button:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+    background-color: #c0b8a8; /* Slightly darker muted ivory */
+}
+
+.save-button {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.tiers-table {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tier-card {
+    background: #f2eee8; /* Lighter ivory */
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1 0 48%; /* Two cards per row */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tier-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tier-card-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content-t {
+    background: #faf9f6; /* Ivory background */
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #2c3e50; /* Darker text color */
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}

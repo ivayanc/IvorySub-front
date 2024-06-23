@@ -14,10 +14,10 @@
 }
 
 .popup-content {
-    background: #1c2230;
+    background: #faf9f6; /* Lighter ivory background */
     padding: 20px;
     border-radius: 10px;
-    color: white;
+    color: #2c3e50; /* Darker text color */
     width: 400px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -30,6 +30,7 @@
 .form-group label {
     display: block;
     margin-bottom: 5px;
+    color: #2c3e50; /* Darker text color */
 }
 
 .form-group input {
@@ -37,16 +38,16 @@
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    background: #202b3c;
-    color: white;
+    background: #f2eee8; /* Lighter ivory */
+    color: #2c3e50; /* Darker text color */
 }
 
 .submit-button, .close-button {
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
-    background-color: #202b3c;
-    color: white;
+    background-color: #d4cfc1; /* Muted ivory */
+    color: #2c3e50; /* Darker text color */
     border: none;
     border-radius: 30px;
     text-align: center;
@@ -54,5 +55,5 @@
 }
 
 .submit-button:hover, .close-button:hover {
-    background-color: #2a2d3a;
+    background-color: #c0b8a8; /* Slightly darker muted ivory */
 }

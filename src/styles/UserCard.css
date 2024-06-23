@@ -1,12 +1,12 @@
 /* src/components/UserCard.css */
 
 .user-card {
-    background-color: #202b3c;
+    background-color: #f2eee8; /* Lighter ivory */
     border-radius: 10px;
     padding: 20px;
     width: 100%;
     max-width: 250px;
-    color: white;
+    color: #2c3e50; /* Darker text color */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
@@ -14,10 +14,11 @@
 .user-card h3 {
     margin: 0 0 10px;
     font-size: 20px;
+    color: #2c3e50; /* Darker text color */
 }
 
 .user-card p {
     margin: 0;
     font-size: 14px;
-    color: #aaa;
+    color: #555; /* Medium text color */
 }

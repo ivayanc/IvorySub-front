@@ -1,17 +1,40 @@
-import UsersPageListDisplay from './UsersPageListDisplay'
-
-const users = [
-    { username: 'user1', info: 'Short info about user1' },
-    { username: 'user2', info: 'Short info about user2' },
-    { username: 'user3', info: 'Short info about user3' },
-    { username: 'user4', info: 'Short info about user4' },
-    { username: 'user5', info: 'Short info about user5' },
-    { username: 'user6', info: 'Short info about user6' },
-];
-
+import { useEffect, useState } from 'react';
+import UsersPageListDisplay from './UsersPageListDisplay';
+import { useGun } from '../utils/GunContext';
+import { useAccount } from '../utils/AccountContext';
 
 const UsersPage = () => {
-    return UsersPageListDisplay(users);
-}
+    const gun = useGun();
+    const [users, setUsers] = useState({});
+    const { account } = useAccount();
+    
+    useEffect(() => {
+        if (gun) {
+            const user = gun.get('users');
+            user.map().on((u, id) => {
+                if (u) {
+                    setUsers(prevUsers => ({ ...prevUsers, [id]: { ...u, id } }));
+                } else {
+                    setUsers(prevUsers => {
+                        const newUsers = { ...prevUsers };
+                        delete newUsers[id];
+                        return newUsers;
+                    });
+                }
+            });
+
+            return () => user.off();
+        }
+    }, [gun]);
+
+    // Filter out the current account from the users list
+    const filteredUsers = Object.values(users).filter(user => user.id !== account);
+
+    return (
+        <div>
+            <UsersPageListDisplay users={filteredUsers} />
+        </div>
+    );
+};
 
 export default UsersPage;

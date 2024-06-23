@@ -1,13 +1,15 @@
 /* src/components/Header.css */
 
 .header {
-    width: 100%;
-    background-color: #1c2230;
-    padding: 15px 20px;
+    width: 100%; /* Adjusting the width to account for margins */
+    background-color: #f8f5e1; /* Ivory background */
+    height: 50px; /* Set a specific height */
     display: flex;
     justify-content: center;
+    align-items: center; /* Center the content vertically */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
+    border-radius: 10px; /* Rounded corners */
 }
 
 .header-content {
@@ -19,10 +21,11 @@
 }
 
 .header-title {
-    font-size: 24px;
-    color: #61dafb;
+    font-size: 20px; /* Reduced font size */
+    color: #2c3e50; /* Darker text color */
     font-weight: bold;
-    margin-right: 20px;
+    margin-right: 10px; /* Reduced margin */
+    line-height: 1; /* Adjust line height */
 }
 
 .header-nav {
@@ -31,35 +34,20 @@
 }
 
 .header-link {
-    margin: 0 15px;
-    font-size: 16px;
-    color: #fff;
+    margin: 0 10px; /* Reduced margin */
+    font-size: 14px; /* Reduced font size */
+    color: #2c3e50; /* Darker text color */
     text-decoration: none;
     position: relative;
-    padding: 5px 0;
-    transition: color 0.3s ease;
+    line-height: 1; /* Adjust line height */
+    padding: 5px 10px; /* Padding for hover effect */
+    transition: background-color 0.3s ease; /* Removed color transition */
+    border-radius: 5px; /* Rounded corners for background box */
 }
 
 .header-link:hover {
-    color: #61dafb;
-}
-
-.header-link::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #61dafb;
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
-}
-
-.header-link:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
+    background-color: #e8e2d6; /* Background color on hover */
+    text-decoration: none; /* Remove underline on hover */
 }
 
 .header-actions {
@@ -68,11 +56,11 @@
 }
 
 .creator-button {
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 5px 10px; /* Reduced padding for less height */
+    font-size: 14px; /* Reduced font size */
     cursor: pointer;
-    background-color: #202b3c;
-    color: white;
+    background-color: #d4cfc1; /* Muted ivory */
+    color: #2c3e50; /* Darker text color */
     border: none;
     border-radius: 30px;
     text-align: center;
@@ -81,7 +69,7 @@
 }
 
 .creator-button:hover {
-    background-color: #2a2d3a;
+    background-color: #c0b8a8; /* Slightly darker muted ivory */
 }
 
 @media (max-width: 768px) {

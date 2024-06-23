@@ -6,52 +6,84 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import sanitizeHtml from 'sanitize-html';
 import { useGun } from '../utils/GunContext';
+import { useAccount } from '../utils/AccountContext';
+import { BrowserProvider, parseEther, toBeHex, toBigInt } from 'ethers';
 
-const users = {
-    user1: { username: 'user1', info: 'Detailed info about user1', rating: 4.8 },
-    user2: { username: 'user2', info: 'Detailed info about user2', rating: 4.5 },
-    // Add more users as needed
+const generateRandomSymbols = (length) => {
+    const symbols = '!@#$%^&*()_+[]{}|;:,.<>?';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += symbols.charAt(Math.floor(Math.random() * symbols.length));
+    }
+    return result;
 };
 
 const UserPage = () => {
     const { username } = useParams();
-    const user = users[username];
     const gun = useGun();
     const postKeys = `posts-${username}`;
 
-    const [posts, setPosts] = useState({}); // Store posts in an object
+    const { creatorUsername } = useAccount();
+    const [posts, setPosts] = useState({});
+    const [subscriptionPlans, setSubscriptionPlans] = useState({});
+    const [profileAccount, setProfileAccount] = useState(null);
+    const [creatorAccount, setCreatorAccount] = useState({});
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [subscriptionDate, setSubscriptionDate] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [newPostTitle, setNewPostTitle] = useState('');
     const [newPostText, setNewPostText] = useState('');
+    const [selectedTiers, setSelectedTiers] = useState([]);
+    const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
 
     useEffect(() => {
         if (gun) {
-            const postsRef = gun.get(postKeys);
-            postsRef.map().on((post, id) => {
-                if (post) {
-                    setPosts(prevPosts => ({ ...prevPosts, [id]: { ...post, id } }));
-                } else {
-                    // Handle deleted or undefined posts
-                    setPosts(prevPosts => {
-                        const updatedPosts = { ...prevPosts };
-                        delete updatedPosts[id];
-                        return updatedPosts;
-                    });
-                }
+            const userRef = gun.get('username-account').get(username);
+            userRef.map().once((data) => {
+                setProfileAccount(data);
             });
 
-            return () => postsRef.map().off();
+            if (profileAccount) {
+                gun.get('users').get(profileAccount).once((data) => {
+                    setCreatorAccount(data);
+                });
+
+                const tiersRef = gun.get(`tiers-${profileAccount}`);
+                tiersRef.map().on((tier, id) => {
+                    if (tier) {
+                        setSubscriptionPlans((prevPlans) => ({ ...prevPlans, [id]: { ...tier, id } }));
+                    }
+                });
+
+                const postsRef = gun.get(postKeys);
+                postsRef.map().on((post, id) => {
+                    if (post) {
+                        setPosts((prevPosts) => ({ ...prevPosts, [id]: { ...post, id } }));
+                    } else {
+                        setPosts((prevPosts) => {
+                            const updatedPosts = { ...prevPosts };
+                            delete updatedPosts[id];
+                            return updatedPosts;
+                        });
+                    }
+                });
+
+                return () => {
+                    postsRef.map().off();
+                    tiersRef.map().off();
+                };
+            }
         }
-    }, [gun, postKeys]);
+    }, [gun, username, profileAccount, postKeys]);
 
     const handleSubscribe = () => {
         setIsSubscribed(true);
         const currentDate = new Date();
         const subscriptionEndDate = new Date(currentDate.setMonth(currentDate.getMonth() + 1));
         setSubscriptionDate(subscriptionEndDate);
+        setShowSubscriptionModal(false);
     };
+    
 
     const handleCancelSubscription = () => {
         setIsSubscribed(false);
@@ -66,6 +98,7 @@ const UserPage = () => {
         setShowModal(false);
         setNewPostTitle('');
         setNewPostText('');
+        setSelectedTiers([]);
     };
 
     const handleSavePost = () => {
@@ -74,47 +107,75 @@ const UserPage = () => {
                 gun.get(postKeys).set({
                     title: newPostTitle,
                     description: newPostText,
-                    timestamp: Date.now()
+                    timestamp: Date.now(),
+                    tiers: selectedTiers.join(', ')
                 });
             }
             handleCloseModal();
         }
     };
 
+    const handleShowSubscriptionModal = () => {
+        setShowSubscriptionModal(true);
+    };
+
+    const handleCloseSubscriptionModal = () => {
+        setShowSubscriptionModal(false);
+    };
+
+    const handleTierChange = (tier) => {
+        setSelectedTiers((prevTiers) =>
+            prevTiers.includes(tier) ? prevTiers.filter((t) => t !== tier) : [...prevTiers, tier]
+        );
+    };
+
     // Convert the posts object to an array and sort by timestamp in descending order
     const postsArray = Object.values(posts).sort((a, b) => b.timestamp - a.timestamp);
 
-    if (!user || postsArray.length === 0) {
-        return <div className="user-page">User not found or no posts available</div>;
+    if (!creatorAccount) {
+        return <div className="user-page">User not found</div>;
     }
 
     return (
         <div className="user-page">
             <div className="user-posts">
-                {'user2' === username && <button className="create-post-button" onClick={handleCreatePost}>Create New Post</button>}
+                {creatorUsername === username && (
+                    <button className="create-post-button" onClick={handleCreatePost}>
+                        Create New Post
+                    </button>
+                )}
                 {postsArray.map((post, index) => (
                     <div key={index} className="post-card">
+                        <div className="post-tier-tag">{post.tiers}</div>
                         <h3 className="post-title">{post.title}</h3>
-                        <p className="post-text" dangerouslySetInnerHTML={{ __html: isSubscribed ? sanitizeHtml(post.description) : "Subscribe to view the full content." }} />
+                        <div className={`post-text ${!isSubscribed ? 'blur-text' : ''}`}>
+                            <p
+                                dangerouslySetInnerHTML={{
+                                    __html: isSubscribed
+                                        ? sanitizeHtml(post.description)
+                                        : generateRandomSymbols(post.description.length)
+                                }}
+                            />
+                        </div>
                     </div>
                 ))}
-                {!isSubscribed && <div className="blur-overlay">Subscribe to view the full content</div>}
             </div>
             <div className="user-info">
                 <div className="user-header">
-                    <h2 className="user-name">{user.username}</h2>
-                    <div className="user-rating">
-                        <FaStar className="star-icon" /> {user.rating}/5
-                    </div>
+                    <h2 className="user-name">{creatorAccount.username}</h2>
                 </div>
-                <p className="user-details">{user.info}</p>
+                <p className="user-details">{creatorAccount.shortInfo}</p>
                 {isSubscribed ? (
                     <div className="subscription-info">
                         Subscription will be updated at {subscriptionDate.toLocaleDateString()}
-                        <button className="cancel-button" onClick={handleCancelSubscription}>Cancel Subscription</button>
+                        <button className="cancel-button" onClick={handleCancelSubscription}>
+                            Cancel Subscription
+                        </button>
                     </div>
                 ) : (
-                    <button className="wallet-button" onClick={handleSubscribe}>Subscribe</button>
+                    <button className="wallet-button" onClick={handleShowSubscriptionModal}>
+                        Subscribe
+                    </button>
                 )}
             </div>
 
@@ -140,10 +201,58 @@ const UserPage = () => {
                                 className="modal-editor"
                             />
                         </div>
-                        <div className="modal-buttons">
-                            <button className="submit-button" onClick={handleSavePost}>Save</button>
-                            <button className="close-button" onClick={handleCloseModal}>Cancel</button>
+                        <div className="form-group choose-subscription-tier">
+                            <label>Choose Subscription Tiers for This Post</label>
+                            <div className="subscription-tier-options">
+                                {Object.values(subscriptionPlans).map((plan) => (
+                                    <div
+                                        key={plan.id}
+                                        className={`tier-option ${
+                                            selectedTiers.includes(plan.name) ? 'selected' : ''
+                                        }`}
+                                        onClick={() => handleTierChange(plan.name)}
+                                    >
+                                        <div className="tier-info">
+                                            <strong>{plan.name}</strong> - ${plan.price}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
+                        <div className="modal-buttons">
+                            <button className="submit-button" onClick={handleSavePost}>
+                                Save
+                            </button>
+                            <button className="close-button" onClick={handleCloseModal}>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showSubscriptionModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Choose Subscription Tier</h2>
+                        <p>Select the subscription tier to access exclusive content.</p>
+                        <div className="subscription-options">
+                            {Object.values(subscriptionPlans).map((plan) => (
+                                <button
+                                    key={plan.id}
+                                    className="subscription-button"
+                                    onClick={() => handleSubscribe(plan)}
+                                >
+                                    <div className="subscription-plan">
+                                        <strong>{plan.name}</strong> - ${plan.price}
+                                        <p>{plan.description}</p>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                        <button className="close-button" onClick={handleCloseSubscriptionModal}>
+                            Close
+                        </button>
                     </div>
                 </div>
             )}

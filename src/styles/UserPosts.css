@@ -4,7 +4,7 @@
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    background-color: #1c2230;
+    background-color: #faf9f6; /* Lighter ivory background */
     min-height: 100vh;
     font-family: 'Roboto', sans-serif;
     position: relative;
@@ -19,10 +19,10 @@
 }
 
 .post-card {
-    background-color: #202b3c;
+    background-color: #f2eee8; /* Lighter ivory */
     border-radius: 10px;
     padding: 20px;
-    color: white;
+    color: #333; /* Darker text */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
     position: relative;
@@ -36,21 +36,39 @@
 .post-title {
     margin: 0 0 10px;
     font-size: 20px;
-    color: #61dafb;
+    color: #2c3e50; /* Darker text color */
 }
 
 .post-text {
     margin: 0;
     font-size: 16px;
-    color: #aaa;
+    color: #555; /* Medium text color */
+    position: relative;
+}
+
+.blur-text {
+    filter: blur(5px);
+    transition: filter 0.3s;
+}
+
+.post-tier-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff7f50; /* Contrasting tag color */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .user-info {
     flex: 1;
-    background-color: #202b3c;
+    background-color: #f2eee8; /* Lighter ivory */
     border-radius: 10px;
     padding: 20px;
-    color: white;
+    color: #333; /* Darker text */
     margin-left: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -69,33 +87,33 @@
 .user-name {
     margin: 0 10px 0 0;
     font-size: 24px;
-    color: #61dafb;
+    color: #2c3e50; /* Darker text color */
 }
 
 .user-rating {
     display: flex;
     align-items: center;
     font-size: 18px;
-    color: #6c7a89; /* Adjusted to a darker color */
+    color: #8e8e8e; /* Medium gray */
 }
 
 .star-icon {
     margin-right: 5px;
-    color: #6c7a89; /* Adjusted to a darker color */
+    color: #f39c12; /* Gold star color */
 }
 
 .user-details {
     margin: 0 0 20px;
     font-size: 16px;
-    color: #aaa;
+    color: #555; /* Medium text color */
 }
 
 .wallet-button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #202b3c;
-    color: white;
+    background-color: #e8e2d6; /* Lighter muted ivory */
+    color: #2c3e50; /* Darker text color */
     border: none;
     border-radius: 30px;
     text-align: center;
@@ -103,7 +121,7 @@
 }
 
 .wallet-button:hover {
-    background-color: #2a2d3a;
+    background-color: #d8d2c6; /* Slightly darker muted ivory */
 }
 
 .cancel-button {
@@ -111,8 +129,8 @@
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #202b3c;
-    color: white;
+    background-color: #e8e2d6; /* Lighter muted ivory */
+    color: #2c3e50; /* Darker text color */
     border: none;
     border-radius: 30px;
     text-align: center;
@@ -120,31 +138,58 @@
 }
 
 .cancel-button:hover {
-    background-color: #2a2d3a;
+    background-color: #d8d2c6; /* Slightly darker muted ivory */
 }
 
 .subscription-info {
     font-size: 16px;
-    color: #61dafb;
+    color: #2c3e50; /* Darker text color */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.blur-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    z-index: 2;
+.subscription-plans {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.subscription-button {
+    display: inline-block;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #e8e2d6; /* Lighter muted ivory */
+    color: #2c3e50; /* Darker text color */
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.3s;
+    flex: 1 0 45%; /* Adjusts the size to fit 2 items per row */
+    margin: 5px;
+}
+
+.subscription-button:hover {
+    background-color: #d8d2c6; /* Slightly darker muted ivory */
+    transform: scale(1.05);
+}
+
+.subscription-plan {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
+}
+
+.subscription-plan strong {
+    font-size: 16px;
+    color: #2c3e50; /* Darker text color */
+}
+
+.subscription-plan p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: #555; /* Medium text color */
 }
 
 .create-post-button {
@@ -153,8 +198,8 @@
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #202b3c;
-    color: white;
+    background-color: #e8e2d6; /* Lighter muted ivory */
+    color: #2c3e50; /* Darker text color */
     border: none;
     border-radius: 30px;
     text-align: center;
@@ -162,7 +207,7 @@
 }
 
 .create-post-button:hover {
-    background-color: #2a2d3a;
+    background-color: #d8d2c6; /* Slightly darker muted ivory */
 }
 
 .modal-overlay {
@@ -179,14 +224,67 @@
 }
 
 .modal-content {
-    background: #1c2230;
+    background: #faf9f6; /* Lighter ivory background */
     padding: 20px;
     border-radius: 10px;
-    color: white;
-    width: 80%;
-    max-width: 800px;
+    color: #2c3e50; /* Darker text color */
+    width: 50%; /* Full width */
+    max-width: none; /* Disable max width */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
+    margin: 0 20px; /* Margin for spacing on small screens */
+}
+
+.subscription-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.subscription-tier-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tier-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #e8e2d6; /* Lighter muted ivory */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    flex: 1 0 45%; /* Adjusts the size to fit 2 items per row */
+    margin: 5px;
+}
+
+.tier-option.selected {
+    background-color: #ccc6b8; /* Darker muted ivory */
+}
+
+.tier-option:hover {
+    background-color: #d8d2c6; /* Slightly darker muted ivory */
+}
+
+.tier-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.tier-info strong {
+    font-size: 14px;
+    color: #2c3e50; /* Darker text color */
+}
+
+.tier-info p {
+    margin: 0;
+    font-size: 12px;
+    color: #555; /* Medium text color */
 }
 
 .form-group {
@@ -196,20 +294,28 @@
 .form-group label {
     display: block;
     margin-bottom: 5px;
+    font-size: 16px;
+    color: #2c3e50; /* Darker text color */
 }
 
-.form-group input {
+.form-group input[type="text"] {
     width: 100%;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    background: #202b3c;
-    color: white;
+    background: #f2eee8; /* Lighter ivory */
+    color: #2c3e50; /* Darker text color */
 }
 
 .modal-editor {
     height: 300px;
     margin-bottom: 20px;
+    background: #f2eee8; /* Lighter ivory */
+    color: #2c3e50; /* Darker text color */
+}
+
+.choose-subscription-tier {
+    margin-top: 60px;
 }
 
 .modal-buttons {
@@ -219,20 +325,22 @@
     margin-top: 50px;
 }
 
-.submit-button, .close-button {
+.submit-button,
+.close-button {
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
-    background-color: #202b3c;
-    color: white;
+    background-color: #e8e2d6; /* Lighter muted ivory */
+    color: #2c3e50; /* Darker text color */
     border: none;
     border-radius: 30px;
     text-align: center;
     transition: background-color 0.3s;
 }
 
-.submit-button:hover, .close-button:hover {
-    background-color: #2a2d3a;
+.submit-button:hover,
+.close-button:hover {
+    background-color: #d8d2c6; /* Slightly darker muted ivory */
 }
 
 @media (max-width: 768px) {

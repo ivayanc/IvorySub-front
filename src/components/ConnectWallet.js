@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import '../styles/ConnectWallet.css';
+import { useAccount } from '../utils/AccountContext';
 
 const ConnectWallet = ({ onAuthorize }) => {
-    const [account, setAccount] = useState(null);
-    const [ethBalance, setEthBalance] = useState(null);
+    const { account, setAccount, ethBalance, setEthBalance } = useAccount();
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const disconnectWallet = useCallback(() => {
@@ -15,7 +15,7 @@ const ConnectWallet = ({ onAuthorize }) => {
             setDropdownOpen(false);
             if (onAuthorize) onAuthorize(false, false, '');
         }
-    }, [account, onAuthorize]);
+    }, [account, onAuthorize, setAccount, setEthBalance]);
 
     useEffect(() => {
         const savedAccount = localStorage.getItem('account');
@@ -44,7 +44,7 @@ const ConnectWallet = ({ onAuthorize }) => {
                 window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
             };
         }
-    }, [account, disconnectWallet, onAuthorize]);
+    }, [account, disconnectWallet, onAuthorize, setAccount]);
 
     const connectWallet = async () => {
         if (window.ethereum) {
